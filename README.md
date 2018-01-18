@@ -21,4 +21,4 @@
 
 ## LISCENSE
 
-The user-level-threadlib is under the MIT Liscense.
+The user-level-threadlib is under the [MIT](https://github.com/firejq/threadLib/blob/master/LICENSE) Liscense.
