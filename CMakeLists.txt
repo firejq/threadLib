@@ -3,4 +3,4 @@ project(userLevelThreadsLib)
 
 set(CMAKE_CXX_STANDARD 98)
 
-add_executable(userLevelThreadsLib main.cpp)
+add_executable(userLevelThreadsLib test/test.cpp u_thread.cpp u_thread.h)
