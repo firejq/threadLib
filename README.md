@@ -19,6 +19,6 @@
 
 - [ ] 加入信号量，实现线程的互斥与顺序保证
 
-## LISCENSE
+## LICENSE
 
-The user-level-threadlib is under the [MIT](https://github.com/firejq/threadLib/blob/master/LICENSE) Liscense.
+The user-level-threadlib is under the [MIT](https://github.com/firejq/threadLib/blob/master/LICENSE) License.
