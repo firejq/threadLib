@@ -77,7 +77,7 @@ int u_thread::u_thread_create(void (*procedure)(int), int param, int priority) {
         std::cout << "开始执行线程-tid:【"
                   << cur_node->info->tid
                   << "】"
-                  << endl;
+                  << std::endl;
         gettimeofday(&(cur_node->info->timeBeforeSched), NULL);
         cur_node->info->state = RUN;
         (*(cur_node->info->procedure))(cur_node->info->param);
@@ -92,7 +92,7 @@ int u_thread::u_thread_create(void (*procedure)(int), int param, int priority) {
                   << "】执行完毕，共运行"
                   << cur_node->info->run_time
                   << "ms"
-                  << endl;
+                  << std::endl;
         siglongjmp(main_jbuf, 1);
 
     } else if (jmp_res == 0) {
@@ -182,8 +182,6 @@ int u_thread::u_thread_start(sche_algorithm scheAlgorithm) {
             break;
         }
     }
-
-
     return 0;
 }
 
@@ -193,7 +191,7 @@ int u_thread::u_thread_start(sche_algorithm scheAlgorithm) {
  */
 int u_thread::sche_FCFS() {
 
-    // std::cout << "here is fcfs" << endl;
+    // std::cout << "here is fcfs" << std::endl;
 
     /* 保存主线程，以供调度器返回 */
     int jmp_res = sigsetjmp(main_jbuf, 1);
@@ -225,11 +223,7 @@ int u_thread::sche_FCFS() {
             cur_node = u_threads_ready->head;
             siglongjmp(cur_node->info->jbuf, 1);
         }
-
-
     }
-
-
     return 0;
 }
 
@@ -284,7 +278,6 @@ int u_thread::sche_RR() {
             }
         }
     }
-
 }
 
 /**
@@ -297,10 +290,10 @@ void u_thread::sche_RR_check(int signal) {
     cur_node->info->run_time += cur_node->info->timeAfterSched.tv_usec
                                 - cur_node->info->timeBeforeSched.tv_usec;
 
-    // std::cout << cur_node->info->run_time << endl;
+    // std::cout << cur_node->info->run_time << std::endl;
 
     if (cur_node->info->run_time >= cur_node->info->vq * 1000) {
-        std::cout << cur_node->info->run_time << "【over，移至队尾】" << endl;
+        std::cout << cur_node->info->run_time << "【over，移至队尾】" << std::endl;
         /* 运行时间已超过时间片，将当前线程移至队尾并为其分配新的时间片，头指针指向下一个线程节点 */
         cur_node->info->vq *= 2;
         u_threads_ready->tail->next = u_threads_ready->head;
@@ -313,10 +306,8 @@ void u_thread::sche_RR_check(int signal) {
 
     } else {
         /* 运行时间还不足时间片，让线程继续运行 */
-        std::cout << cur_node->info->run_time << " 【not over】" << endl;
+        std::cout << cur_node->info->run_time << " 【not over】" << std::endl;
     }
-
-
 }
 
 /**
@@ -384,8 +375,6 @@ int u_thread::sche_HP() {
             }
         }
     }
-
-
     return 0;
 }
 
@@ -399,10 +388,10 @@ void u_thread::sche_HP_check(int signal) {
     cur_node->info->run_time += cur_node->info->timeAfterSched.tv_usec
                                 - cur_node->info->timeBeforeSched.tv_usec;
 
-    // std::cout << cur_node->info->run_time << endl;
+    // std::cout << cur_node->info->run_time << std::endl;
 
     if (cur_node->info->run_time >= cur_node->info->vq * 1000) {
-        std::cout << cur_node->info->run_time << "【over，移至队尾】" << endl;
+        std::cout << cur_node->info->run_time << "【over，移至队尾】" << std::endl;
         /* 运行时间已超过时间片，为当前线程分配新的时间片，然后降低优先级 */
         cur_node->info->vq *= 2;
         cur_node->info->priority /= 2;
@@ -419,9 +408,8 @@ void u_thread::sche_HP_check(int signal) {
 
     } else {
         /* 运行时间还不足时间片，让线程继续运行 */
-        std::cout << cur_node->info->run_time << " 【not over】" << endl;
+        std::cout << cur_node->info->run_time << " 【not over】" << std::endl;
     }
-
 
 }
 
@@ -431,7 +419,7 @@ void u_thread::sche_HP_check(int signal) {
  * @return
  */
 int u_thread::u_thread_yeild() {
-    std::cout << "线程【" << u_threads_ready->head->info->tid << "】主动让步" <<endl;
+    std::cout << "线程【" << u_threads_ready->head->info->tid << "】主动让步" <<std::endl;
 
     /* 将 ready 队列中的头节点移至队尾，并将头指针指向下一个节点 */
     u_threads_ready->tail->next = u_threads_ready->head;
@@ -442,7 +430,6 @@ int u_thread::u_thread_yeild() {
     /* 取 ready 队列中的头节点线程执行 */
     cur_node = u_threads_ready->head;
     siglongjmp(cur_node->info->jbuf, 1);
-
 }
 
 /**
@@ -465,7 +452,7 @@ int u_thread::u_thread_exit() {
                 cur_node->info->run_time += cur_node->info->timeAfterSched.tv_usec
                                             - cur_node->info->timeBeforeSched.tv_usec;
                 if (cur_node->info->run_time >= cur_node->info->vq * 1000) {
-                    std::cout << cur_node->info->run_time << "【over，移至队尾】" << endl;
+                    std::cout << cur_node->info->run_time << "【over，移至队尾】" << std::endl;
                     /* 运行时间已超过时间片，为当前线程分配新的时间片 */
                     cur_node->info->vq *= 2;
                     /* 取 ready 队列的头节点进行运行 */
@@ -482,7 +469,7 @@ int u_thread::u_thread_exit() {
                                             - cur_node->info->timeBeforeSched.tv_usec;
 
                 if (cur_node->info->run_time >= cur_node->info->vq * 1000) {
-                    std::cout << cur_node->info->run_time << "【over，移至队尾】" << endl;
+                    std::cout << cur_node->info->run_time << "【over，移至队尾】" << std::endl;
                     /* 运行时间已超过时间片，为当前线程分配新的时间片，然后降低优先级 */
                     cur_node->info->vq *= 2;
                     cur_node->info->priority /= 2;
@@ -499,17 +486,16 @@ int u_thread::u_thread_exit() {
 
                 } else {
                     /* 运行时间还不足时间片，让线程继续运行 */
-                    std::cout << cur_node->info->run_time << " 【not over】" << endl;
+                    std::cout << cur_node->info->run_time << " 【not over】" << std::endl;
                 }
             }
             break;
         default:
             exit(1);
     }
-    std::cout << "线程【" << kill_node->info->tid << "】已主动退出" << endl;
+    std::cout << "线程【" << kill_node->info->tid << "】已主动退出" << std::endl;
     free(kill_node);
     return 0;
-
 }
 
 /**
@@ -537,9 +523,7 @@ int u_thread::u_thread_delete(int tid) {
             tmp = next;
             next = next->next;
         }
-
     }
-
     return 0;
 }
 
@@ -568,26 +552,26 @@ void u_thread::u_thread_error() {
     /* 输出错误信息 */
     switch(this->u_error_num){
         case ERROR_NOERROR:
-            std::cout << "线程库目前没有已知错误！" << endl;
+            std::cout << "线程库目前没有已知错误！" << std::endl;
             break;
         case ERROR_DUPLINIT:
-            std::cout << "线程库重复初始化！" << endl;
+            std::cout << "线程库重复初始化！" << std::endl;
             break;
         case ERROR_MEMALLOC:
-            std::cout << "线程库内存分配错误！" << endl;
+            std::cout << "线程库内存分配错误！" << std::endl;
             break;
         case ERROR_NOTINIT:
-            std::cout << "线程库未初始化！" << endl;
+            std::cout << "线程库未初始化！" << std::endl;
             break;
         case ERROR_THREADMAX:
-            std::cout << "线程库内线程数量超过最大限制！" << endl;
+            std::cout << "线程库内线程数量超过最大限制！" << std::endl;
             break;
         case ERROR_THREADNULL:
-            std::cout << "线程库内线程数量为空！" << endl;
+            std::cout << "线程库内线程数量为空！" << std::endl;
             break;
 
         default:
-            std::cout << "未知错误！" << endl;
+            std::cout << "未知错误！" << std::endl;
             break;
     }
 }
