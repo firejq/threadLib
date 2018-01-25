@@ -12,46 +12,46 @@ void f(int param) {
     if (a++==0) {
         uThread->u_thread_yeild();
     }
-    cout << "this is thread1" << endl;
+    std::cout << "this is thread1" << endl;
 }
 
 void g(int param) {
-    cout << "this is thread2" << endl;
+    std::cout << "this is thread2" << endl;
 }
 
 void h(int param) {
-    cout << "this is thread3" << endl;
+    std::cout << "this is thread3" << endl;
 }
 
 void i(int param) {
-    cout << "begin thread4" << endl;
+    std::cout << "begin thread4" << endl;
     if (a++==0) {
         for (int i = 0; i < 4; i ++) {
             sleep(1);
         }
     }
-    cout << "end thread4" << endl;
+    std::cout << "end thread4" << endl;
 
 }
 
 void j(int param) {
-    cout << "begin thread5" << endl;
+    std::cout << "begin thread5" << endl;
     if (b++==0) {
         for (int i = 0; i < 8; i ++) {
             sleep(1);
         }
     }
-    cout << "end thread5" << endl;
+    std::cout << "end thread5" << endl;
 }
 
 void k(int param) {
-    cout << "begin thread6" << endl;
+    std::cout << "begin thread6" << endl;
     if (c++==0) {
         for (int i = 0; i < 8; i ++) {
             sleep(1);
         }
     }
-    cout << "end thread6" << endl;
+    std::cout << "end thread6" << endl;
 }
 
 

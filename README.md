@@ -1,7 +1,7 @@
 
 # user-level-threadlib
 
-一个使用 `c++ 98` 实现的简易用户级线程库.
+一个使用 `c++ 98` 实现的 unix 简易用户级线程库.
 
 
 ## Interface

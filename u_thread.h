@@ -20,7 +20,6 @@
 #include <iostream>
 #include <wait.h>
 
-using namespace std;
 
 /*******************************************************
  * 定义常量值
@@ -72,7 +71,7 @@ struct thread_context {
     int priority;                       // 进程优先级
     timeval timeBeforeSched;            // 线程调度前的时间点，用于计算 run_time
     timeval timeAfterSched;             // 线程调度的时间点，用于计算 run_time
-//    timeval timeStart;	            // start time in uthreads_spawn()
+//    timeval timeStart;	            // start time in uthreads_create()
 //    timeval timeEnd;		            // end time in uthreads_exit()
 };
 
